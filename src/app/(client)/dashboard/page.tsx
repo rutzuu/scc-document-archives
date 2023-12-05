@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { CalendarDateRangePicker } from '@/components/date-range-picker'
 import { Overview } from '@/components/overview'
+import { PageTitle } from '@/components/page-title'
 
 // export const metadata: Metadata = {
 //   title: 'Dashboard',
@@ -16,7 +17,7 @@ export default function DashboardPage() {
   return (
     <>
       <div className='flex items-center justify-between space-y-2'>
-        <h2 className='text-3xl font-bold tracking-tight'>Dashboard</h2>
+        <PageTitle title={'Dashboard'} />
         <div className='flex items-center space-x-2'>
           <CalendarDateRangePicker />
           <Button>Download</Button>
