@@ -72,10 +72,11 @@ export default function Sidebar() {
 
   return (
     //TODO: Implement Fixed Sidebar Layout
-    <aside className={clsx('relative z-60 h-screen transition-all', expanded ? 'md:w-1/4 xl:w-1/6' : 'w-16')}>
-      <nav className='z-60 relative w-full  h-screen flex flex-col bg-background transition ease-in-out border-r shadow-sm p-2'>
-        <div className='flex justify-between gap-2 mt-2 mb-3'>
-          {/* <img
+    <>
+      <aside className={clsx('relative z-60 h-screen transition-all', expanded ? 'md:w-1/4 xl:w-1/6' : 'w-16')}>
+        <nav className='z-60 relative w-full  h-screen flex flex-col bg-background transition ease-in-out border-r shadow-sm p-2'>
+          <div className='flex justify-between gap-2 mt-2 mb-3'>
+            {/* <img
             src='https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true'
             alt=''
             className={clsx('w-10 h-10 rounded-md', expanded ? '' : 'mx-auto')}
@@ -90,67 +91,68 @@ export default function Sidebar() {
               <span className='text-xs text-gray-600'>johndoe@gmail.com</span>
             </div>
           </div> */}
-          <div className={clsx(expanded ? '' : 'hidden')}>
-            <LevelSwitcher />
+            <div className={clsx(expanded ? '' : 'hidden')}>
+              <LevelSwitcher />
+            </div>
+            <div className={clsx(expanded ? '' : 'mx-auto')}>
+              <ModeToggle />
+            </div>
           </div>
-          <div className={clsx(expanded ? '' : 'mx-auto')}>
-            <ModeToggle />
+          <Separator />
+          <div className='flex w-full'>
+            <Button
+              variant='outline'
+              size='icon'
+              className='w-full flex my-3 items-center justify-between cursor-pointer'
+              asChild>
+              <p className='text-sm text-muted-foreground px-2'>
+                <SearchIcon className={clsx(expanded ? '' : '')} />
+                <span className={clsx(expanded ? '' : 'hidden')}>Search...</span>
+                <kbd
+                  className={clsx(
+                    'pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100',
+                    expanded ? '' : 'hidden'
+                  )}>
+                  <span className='text-xs'>⌘</span>J
+                </kbd>
+              </p>
+            </Button>
+            <SearchCommandComponent />
           </div>
-        </div>
-        <Separator />
-        <div className='flex w-full'>
-          <Button
-            variant='outline'
-            size='icon'
-            className='w-full flex my-3 items-center justify-between cursor-pointer'
-            asChild>
-            <p className='text-sm text-muted-foreground px-2'>
-              <SearchIcon className={clsx(expanded ? '' : '')} />
-              <span className={clsx(expanded ? '' : 'hidden')}>Search...</span>
-              <kbd
-                className={clsx(
-                  'pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100',
-                  expanded ? '' : 'hidden'
-                )}>
-                <span className='text-xs'>⌘</span>J
-              </kbd>
-            </p>
-          </Button>
-          <SearchCommandComponent />
-        </div>
-        <SidebarContext.Provider value={expanded}>
-          <div className='flex flex-1 flex-col space-y-2 pt-2'>
-            {sidebarItems.map((sidebarItem) => (
-              <SidebarItem
-                icon={sidebarItem.icon}
-                title={sidebarItem.title}
-                alert={sidebarItem.alert}
-                path={sidebarItem.path}
-                submenu={sidebarItem.submenu}
-                subMenuItems={sidebarItem.subMenuItems}
-              />
-            ))}
-          </div>
-        </SidebarContext.Provider>
+          <SidebarContext.Provider value={expanded}>
+            <div className='flex flex-1 flex-col space-y-2 pt-2'>
+              {sidebarItems.map((sidebarItem) => (
+                <SidebarItem
+                  icon={sidebarItem.icon}
+                  title={sidebarItem.title}
+                  alert={sidebarItem.alert}
+                  path={sidebarItem.path}
+                  submenu={sidebarItem.submenu}
+                  subMenuItems={sidebarItem.subMenuItems}
+                />
+              ))}
+            </div>
+          </SidebarContext.Provider>
 
-        <div className='py-2 flex justify-between items-center'>
-          <Image
-            src={logo}
-            width={30}
-            height={30}
-            className={clsx('overflow-hidden transition-all rounded-md', expanded ? 'sm:w-12' : 'w-0')}
-            alt=''
-          />
-          <Button
-            variant='ghost'
-            size='icon'
-            onClick={() => setExpanded((curr) => !curr)}
-            className={clsx('text-muted-foreground', expanded ? '' : 'mx-auto w-full')}>
-            {expanded ? <PanelRightOpen /> : <PanelLeftOpen />}
-          </Button>
-        </div>
-      </nav>
-    </aside>
+          <div className='py-2 flex justify-between items-center'>
+            <Image
+              src={logo}
+              width={30}
+              height={30}
+              className={clsx('overflow-hidden transition-all rounded-md', expanded ? 'sm:w-12' : 'w-0')}
+              alt=''
+            />
+            <Button
+              variant='ghost'
+              size='icon'
+              onClick={() => setExpanded((curr) => !curr)}
+              className={clsx('text-muted-foreground', expanded ? '' : 'mx-auto w-full')}>
+              {expanded ? <PanelRightOpen /> : <PanelLeftOpen />}
+            </Button>
+          </div>
+        </nav>
+      </aside>
+    </>
   )
 }
 
@@ -175,94 +177,96 @@ export function SidebarItem({
   const toggleSubMenu = () => setSubMenuOpen((curr) => !curr)
 
   return (
-    <div className=''>
-      {submenu ? (
-        <>
-          <Button
-            variant={pathname.includes(path) ? 'outline' : 'ghost'}
-            className={clsx(
-              'relative font-medium rounded-md cursor-pointer transition-colors group px-2 flex flex-row items-center w-full',
-              pathname.includes(path) ? 'bg-border text-foreground' : 'hover:bg-border text-muted-foreground',
-              expanded ? 'justify-between' : 'justify-center'
-            )}>
-            <Link href={path}>
-              <div className='flex flex-row items-center'>
-                <Icon className={clsx('w-6 h-6', expanded ? '' : 'mx-auto')} />
-                <span className={clsx('overflow-hidden transition-all', expanded ? 'ml-3' : 'w-0')}>{title}</span>
+    <>
+      <div className=''>
+        {submenu ? (
+          <>
+            <Button
+              variant={pathname.includes(path) ? 'outline' : 'ghost'}
+              className={clsx(
+                'relative font-medium rounded-md cursor-pointer transition-colors group px-2 flex flex-row items-center w-full',
+                pathname.includes(path) ? 'bg-border text-foreground' : 'hover:bg-border text-muted-foreground',
+                expanded ? 'justify-between' : 'justify-center'
+              )}>
+              <Link href={path}>
+                <div className='flex flex-row items-center'>
+                  <Icon className={clsx('w-6 h-6', expanded ? '' : 'mx-auto')} />
+                  <span className={clsx('overflow-hidden transition-all', expanded ? 'ml-3' : 'w-0')}>{title}</span>
+                </div>
+                {alert && (
+                  <div
+                    className={clsx(
+                      'absolute right-4 w-2 h-2 rounded bg-primary',
+                      expanded ? 'bottom-2 left-[1.9rem]' : 'top-6 right-[0.3rem]'
+                    )}></div>
+                )}
+                {!expanded && (
+                  <div
+                    className={
+                      'absolute z-40 left-full rounded-md px-2 py-1 ml-2 bg-card text-popover-foreground border-2 border-accent text-xs invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0'
+                    }>
+                    {title}
+                  </div>
+                )}
+              </Link>
+
+              {expanded && (
+                <div className={`${subMenuOpen ? 'rotate-180' : ''} flex`}>
+                  <ChevronDownIcon
+                    onClick={toggleSubMenu}
+                    className='h-6 w-6 hover:border hover:border-ring p-1 rounded-full transition-all'
+                  />
+                </div>
+              )}
+            </Button>
+
+            {subMenuOpen && (
+              <div className='my-2 ml-2 flex flex-col'>
+                {subMenuItems?.map((subItem, idx) => {
+                  return (
+                    <Link
+                      key={idx}
+                      href={subItem.path}
+                      className={clsx(
+                        'w-full hover:bg-border rounded-md transition ease-in-out text-xs text-muted-foreground px-4 py-2',
+                        subItem.path === pathname ? 'font-medium' : ''
+                      )}>
+                      <span>{subItem.title}</span>
+                    </Link>
+                  )
+                })}
               </div>
+            )}
+          </>
+        ) : (
+          <Link href={path}>
+            <Button
+              variant={pathname.includes(path) ? 'outline' : 'ghost'}
+              className={clsx(
+                'relative font-medium rounded-md cursor-pointer transition-colors group px-2 flex flex-row items-center w-full justify-start',
+                path === pathname ? 'bg-border text-foreground' : 'hover:bg-border text-muted-foreground'
+              )}>
+              <Icon className={clsx('w-6 h-6', expanded ? '' : 'mx-auto')} />
+              <span className={clsx('overflow-hidden transition-all', expanded ? 'ml-3' : 'w-0')}>{title}</span>
               {alert && (
                 <div
                   className={clsx(
-                    'absolute right-4 w-2 h-2 rounded bg-primary',
+                    'absolute right-2 w-2 h-2 rounded bg-primary',
                     expanded ? 'bottom-2 left-[1.9rem]' : 'top-6 right-[0.3rem]'
                   )}></div>
               )}
               {!expanded && (
                 <div
                   className={
-                    'absolute z-40 left-full rounded-md px-2 py-1 ml-2 bg-card text-popover-foreground border-2 border-accent text-xs invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0'
+                    'absolute z-40 left-full rounded-md px-2 py-1 ml-2 bg-card text-popover-foreground border-2 border-accent text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0'
                   }>
                   {title}
                 </div>
               )}
-            </Link>
-
-            {expanded && (
-              <div className={`${subMenuOpen ? 'rotate-180' : ''} flex`}>
-                <ChevronDownIcon
-                  onClick={toggleSubMenu}
-                  className='h-6 w-6 hover:border hover:border-ring p-1 rounded-full transition-all'
-                />
-              </div>
-            )}
-          </Button>
-
-          {subMenuOpen && (
-            <div className='my-2 ml-2 flex flex-col'>
-              {subMenuItems?.map((subItem, idx) => {
-                return (
-                  <Link
-                    key={idx}
-                    href={subItem.path}
-                    className={clsx(
-                      'w-full hover:bg-border rounded-md transition ease-in-out text-xs text-muted-foreground px-4 py-2',
-                      subItem.path === pathname ? 'font-medium' : ''
-                    )}>
-                    <span>{subItem.title}</span>
-                  </Link>
-                )
-              })}
-            </div>
-          )}
-        </>
-      ) : (
-        <Link href={path}>
-          <Button
-            variant={pathname.includes(path) ? 'outline' : 'ghost'}
-            className={clsx(
-              'relative font-medium rounded-md cursor-pointer transition-colors group px-2 flex flex-row items-center w-full justify-start',
-              path === pathname ? 'bg-border text-foreground' : 'hover:bg-border text-muted-foreground'
-            )}>
-            <Icon className={clsx('w-6 h-6', expanded ? '' : 'mx-auto')} />
-            <span className={clsx('overflow-hidden transition-all', expanded ? 'ml-3' : 'w-0')}>{title}</span>
-            {alert && (
-              <div
-                className={clsx(
-                  'absolute right-2 w-2 h-2 rounded bg-primary',
-                  expanded ? 'bottom-2 left-[1.9rem]' : 'top-6 right-[0.3rem]'
-                )}></div>
-            )}
-            {!expanded && (
-              <div
-                className={
-                  'absolute z-40 left-full rounded-md px-2 py-1 ml-2 bg-card text-popover-foreground border-2 border-accent text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0'
-                }>
-                {title}
-              </div>
-            )}
-          </Button>
-        </Link>
-      )}
-    </div>
+            </Button>
+          </Link>
+        )}
+      </div>
+    </>
   )
 }

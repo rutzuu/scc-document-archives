@@ -11,7 +11,7 @@ import { documentSchema } from './_data/schema'
 
 export const metadata: Metadata = {
   title: 'Documents',
-  description: 'A document and issue tracker build using Tanstack Table.',
+  description: '',
 }
 
 // Simulate a database read for documents.
@@ -34,8 +34,8 @@ export default async function DocumentsPage() {
           <Button>Download</Button>
         </div>
       </div>
-      <div className='flex flex-col space-y-2'>
-        <div className='h-full flex-1 flex-col flex'>
+      <div className='space-y-4'>
+        <div className='h-full'>
           {/* <div className='flex items-center justify-between space-y-2'>
             <div>
               <h2 className='text-2xl font-bold tracking-tight'>Welcome back!</h2>
