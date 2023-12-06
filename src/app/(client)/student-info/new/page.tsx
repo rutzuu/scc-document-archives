@@ -174,6 +174,7 @@ export default function NewStudentInfoPage() {
                       </FormItem>
                     )}
                   />
+                  {/* Phone */}
                   <FormField
                     control={form.control}
                     name='studentPhone'
@@ -236,7 +237,7 @@ export default function NewStudentInfoPage() {
                   ease: 'easeInOut',
                 }}>
                 <div className='flex space-x-4 justify-between'>
-                  {/* password */}
+                  {/* Nationality */}
                   <FormField
                     control={form.control}
                     name='studentNationality'
